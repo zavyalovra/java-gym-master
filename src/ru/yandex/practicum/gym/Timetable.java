@@ -1,10 +1,17 @@
 package ru.yandex.practicum.gym;
 
 import java.util.*;
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 public class Timetable {
 
     private HashMap<DayOfWeek, TreeMap<TimeOfDay, ArrayList<TrainingSession>>> timetable;
+
+    public Timetable() {
+        this.timetable = new HashMap<>();
+    }
 
     public void addNewTrainingSession(TrainingSession trainingSession) {
         //сохраняем занятие в расписании
@@ -26,13 +33,37 @@ public class Timetable {
         dayMap.get(timeOfDay).add(trainingSession);
     }
 
-    public Map<TimeOfDay, ArrayList<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
+    public int getCountByCoaches(Coach coach) {
 
-        return null;
+        return 0;
+    }
+
+    public void clearTimetable() {
+        timetable.clear();
+    }
+
+    public ArrayList<TrainingSession> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
+        ArrayList<TrainingSession> trainingSessionsForDay = new ArrayList<>();
+        TreeMap<TimeOfDay, ArrayList<TrainingSession>> dayMap = timetable.get(dayOfWeek);
+
+        if (dayMap == null) {
+            return trainingSessionsForDay;
+        }
+
+        for (TimeOfDay timeOfDay : dayMap.navigableKeySet()) {
+            trainingSessionsForDay.addAll(dayMap.get(timeOfDay));
+        }
+
+        return trainingSessionsForDay;
     }
 
     public ArrayList<TrainingSession> getTrainingSessionsForDayAndTime(DayOfWeek dayOfWeek, TimeOfDay timeOfDay) {
-        //как реализовать, тоже непонятно, но сложность должна быть О(1)
-        return null;
+        TreeMap<TimeOfDay, ArrayList<TrainingSession>> dayMap = timetable.get(dayOfWeek);
+
+        if (dayMap == null) {
+            return new ArrayList<>();
+        }
+
+        return dayMap.getOrDefault(timeOfDay, new ArrayList<>());
     }
 }
