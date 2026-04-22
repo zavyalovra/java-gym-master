@@ -107,8 +107,7 @@ public class TimetableTest {
         TimeOfDay timeRequest = new TimeOfDay(11, 0);
 
         //Проверить обработку запроса на несуществующее время
-        assertEquals(false,
-                timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY).getFirst().getTimeOfDay().equals(timeRequest));
+        assertNotEquals(timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY).getFirst().getTimeOfDay(), timeRequest);
     }
 
     @Test
