@@ -19,17 +19,11 @@ public class Timetable {
         TimeOfDay timeOfDay = trainingSession.getTimeOfDay();
 
         // Проверяем существует ли мапа для указанного дня, если нет, то создаем ее
-        if (!timetable.containsKey(dayOfWeek)) {
-            timetable.put(dayOfWeek, new TreeMap<>());
-        }
-
+        timetable.computeIfAbsent(dayOfWeek, k -> new TreeMap<>());
         TreeMap<TimeOfDay, ArrayList<TrainingSession>> dayMap = timetable.get(dayOfWeek);
 
         // Проверяем существует ли список тренировок для указанного дня, если нет, то создаем его
-        if (!dayMap.containsKey(timeOfDay)) {
-            dayMap.put(timeOfDay, new ArrayList<>());
-        }
-
+        dayMap.computeIfAbsent(timeOfDay, k -> new ArrayList<>());
         dayMap.get(timeOfDay).add(trainingSession);
     }
 
@@ -56,10 +50,6 @@ public class Timetable {
         return coachList;
     }
 
-    public void clearTimetable() {
-        timetable.clear();
-    }
-
     public ArrayList<TrainingSession> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
         ArrayList<TrainingSession> trainingSessionsForDay = new ArrayList<>();
         TreeMap<TimeOfDay, ArrayList<TrainingSession>> dayMap = timetable.get(dayOfWeek);
@@ -82,6 +72,6 @@ public class Timetable {
             return new ArrayList<>();
         }
 
-        return dayMap.getOrDefault(timeOfDay, new ArrayList<>());
+        return new ArrayList<>(dayMap.getOrDefault(timeOfDay, new ArrayList<>()));
     }
 }

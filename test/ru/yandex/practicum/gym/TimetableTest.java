@@ -116,9 +116,6 @@ public class TimetableTest {
 
         Group group = new Group("Занятие", Age.CHILD, 60);
         Coach coach = new Coach("Иванов", "Иван", "Иванович");
-        timetable.addNewTrainingSession(new TrainingSession(group, coach, DayOfWeek.MONDAY, new TimeOfDay(9, 0)));
-
-        timetable.clearTimetable();
 
         //Проверить пустое ли расписание
         assertEquals(0, timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY).size());
